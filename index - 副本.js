@@ -9,10 +9,10 @@ var path = require('path')
 
 var id = 0
 var IndexData = []
-var productId = 5845
+var productId = 2156
 var datas = []
 
-//Schema 
+
 var ProductSchema = new mongoose.Schema({
   tag: Array,
   price: String,
@@ -60,12 +60,10 @@ function getPage(url, obj){
     var pageId = path.basename(url, '.html').replace(/\-/g, ',')
     url = 'http://list.jd.com/list.html?cat=' + pageId
   }
-  getIndexHtml(url+'&go=0', 'utf-8').then(function(data){
+  getIndexHtml(url, 'utf-8').then(function(data){
     var $ = cheerio.load(data, {decodeEntities: false})
-    var page = $('.p-skip b').text()
-    obj.maxPage = page > 15 ? 15 : page
-
-    obj.currentPage = 11
+    obj.maxPage = $('.p-skip b').text()
+    obj.currentPage = 0
     def.resolve(obj)
   })
   return def.promise
@@ -79,6 +77,7 @@ getIndexHtml('http://channel.jd.com/furniture.html', 'gbk').then(function(data){
   var $ = cheerio.load(data, {decodeEntities: false})
  
   var $Items = $('#sortlist  .item')
+  
   $Items.each(function(index, item){
     var item = $(item)
     var childs = []
@@ -127,8 +126,6 @@ getIndexHtml('http://channel.jd.com/furniture.html', 'gbk').then(function(data){
     if(err){
       console.log('write data error', err)
     }
-
-    console.log('write file sucess')
   })
   var arrUrls = []
   var data = JSON.parse(data)
@@ -146,7 +143,7 @@ getIndexHtml('http://channel.jd.com/furniture.html', 'gbk').then(function(data){
 
     while(startPage < maxPage){
       var url = item.url + '&page='+(startPage+1)
-      getIndexHtml(url + '&go=0', 'utf-8').then(function(data){
+      getIndexHtml(url, 'utf-8').then(function(data){
         item.currentPage = startPage+1
         var urls = []
         var defs = []
@@ -177,7 +174,6 @@ getIndexHtml('http://channel.jd.com/furniture.html', 'gbk').then(function(data){
 
 function getProduct(url, obj){
   var def = Q.defer()
-  console.log(url)
   getIndexHtml(url, 'gbk').then(function(data){
     var $ = cheerio.load(data, {decodeEntities: false})
     var images = $('#spec-list .spec-items img')

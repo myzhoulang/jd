@@ -1,0 +1,12 @@
+[{
+	"id": 10,
+	"name": "烹饪锅具",
+	"child": [{
+		"name": "火锅",
+		"tag": "烹饪锅具",
+		"id": 0,
+		"url": "http://list.jd.com/list.html?cat=6196,6197,11976",
+		"maxPage": "2",
+		"currentPage": 0
+	}]
+}]

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		var arr = [{name:1, age:2}, {name:3, age:4}, {name:5, age:6}];
+
+		arr.forEach(function(item){
+			setTimeout(function(){
+				switch(item.name){
+					case 1:
+						item.age = 9
+						break
+
+					case 3:
+						item.age = 8
+						break
+
+					case 5:
+						item.age = 7
+						break
+				}
+			}, 3000)
+		})
+
+
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
